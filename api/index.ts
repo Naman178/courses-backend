@@ -3,7 +3,7 @@ import { AppModule } from '../src/app.module';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import * as express from 'express';
 import { Callback, Context, Handler } from 'aws-lambda';
-import { configure } from '@vendia/serverless-express'; // ✅ updated import
+import { configure } from '@vendia/serverless-express';
 
 let cachedServer: Handler;
 
@@ -12,11 +12,10 @@ async function bootstrap(): Promise<Handler> {
   const adapter = new ExpressAdapter(expressApp);
   const app = await NestFactory.create(AppModule, adapter);
 
-  app.enableCors({ origin: '*' });
-  app.setGlobalPrefix('api');
-
+  app.enableCors();
   await app.init();
-  return configure({ app: expressApp }); // ✅ updated call
+
+  return configure({ app: expressApp });
 }
 
 export const handler: Handler = async (
