@@ -13,6 +13,7 @@ async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule, adapter);
 
   app.enableCors({ origin: '*' });
+  app.setGlobalPrefix('api');
 
   await app.init();
   return configure({ app: expressApp }); // ✅ updated call
